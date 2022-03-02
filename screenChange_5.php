@@ -17,7 +17,7 @@
         </header>
 
         <main>
-            <form action="screenChange.php" method="post">
+            <form action="screenChange_5.php" method="post">
                 <?php if (isset($_POST['time'])) : ?>
                     <p><?php echo $date->format('Y-m-d'); ?></p>
                 <?php else : ?>
