@@ -1,4 +1,5 @@
 <?php
+//後で直すかも
 $errors =[];
 
 function dbConnect()
