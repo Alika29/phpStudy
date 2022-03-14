@@ -1,5 +1,6 @@
 <?php
-$errors =[];
+$errors = [];
+
 function dbConnect()
 {
     $link = new mysqli('localhost','root','','chatspace');
@@ -10,9 +11,8 @@ function dbConnect()
     return $link;
 }
 
-function validate($chat)
+function validate($chat, array $errors)
 {
-
     if (!strlen($chat['name'])) {
         $errors['name'] = 'ニックネームを入力してください';
     }
@@ -25,7 +25,7 @@ function validate($chat)
     return $errors;
 }
 
-function intoTable($link, $chat)
+function intoTable($link, array $chat)
 {
     $sql =<<<EOT
     INSERT INTO chats (
@@ -62,7 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         'chat' => $_POST['chat'],
     ];
 
-    $errors = validate($chats);
+    $errors = validate($chats, $errors);
+
     if (!count($errors)) {
         $link = dbConnect();
         intoTable($link,$chats);
