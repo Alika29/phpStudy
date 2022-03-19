@@ -38,7 +38,7 @@ function intoTable($link, array $chat)
 EOT;
     $result = mysqli_query($link, $sql);
     if (!$result) {
-        error_log('Error: fail to create chat');
+        error_log('Error: fail into chat table');
         error_log('Debugging Error: ' . mysqli_error($link));
     }
 }
