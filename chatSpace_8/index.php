@@ -1,15 +1,7 @@
 <?php
+session_start();
+require('database.php');
 $errors = [];
-
-function dbConnect()
-{
-    $link = new mysqli('localhost','root','','chatspace');
-    if ($link->connect_error) {
-        echo $link->connect_error;
-        exit ();
-    }
-    return $link;
-}
 
 function validate($chat, array $errors)
 {
@@ -38,7 +30,7 @@ function intoTable($link, array $chat)
 EOT;
     $result = mysqli_query($link, $sql);
     if (!$result) {
-        error_log('Error: fail into chat table');
+        error_log('Error: fail to create chat');
         error_log('Debugging Error: ' . mysqli_error($link));
     }
 }
@@ -55,6 +47,12 @@ function chats($link)
     mysqli_free_result($results);
     return $chats;
 }
+
+if (!isset($_SESSION['mail'])) {
+    header('Location: login.php');
+	exit();
+}
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $chats = [
@@ -76,4 +74,4 @@ $chats = chats($link);
 mysqli_close($link);
 
 
-include 'views/index.php';
+include 'chatViews/index.php';
