@@ -1,7 +1,4 @@
-# phpstudy
-# Google Drive API
-
-Google APIを使ってGoogle Driveのファイル名を取得する方法
+# Google APIを使ってGoogle Driveのファイル名を取得する方法
 
 Google APIsのページに移動
 
