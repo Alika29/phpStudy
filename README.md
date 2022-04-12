@@ -1,4 +1,5 @@
 # Google APIを使ってGoogle Driveのファイル名を取得する方法
+# gdrive
 
 Google APIsのページに移動
 
@@ -16,9 +17,9 @@ $ apt install composer
 
 composer.jsonの作成
 
-$ mkdir 作業フォルダ名
+$ mkdir gdrive
 
-$ cd 作業フォルダ名
+$ cd gdrive
 
 
 全部Enter
