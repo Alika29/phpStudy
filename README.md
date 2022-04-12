@@ -52,6 +52,7 @@ https://developers.google.com/drive/api/quickstart/php
 
 
 認証ページへのリンクが表示されるのでリンク先へ移動し、認証します。
+
 codeは表示されてサイトのURLのcode=から&までを入れるとGoogle Driveのファイル名が表示される。
 
 
