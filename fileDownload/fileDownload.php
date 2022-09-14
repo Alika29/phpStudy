@@ -1,28 +1,52 @@
 <?php
 require_once 'vendor/autoload.php';
 
-//Googleドライブの認証してfileをgetするらし
+//Googleドライブの認証してfileをgetするらしい
 
-//Googleドライブの認証
+//認証パラメータを設定する
 //クライアントオブジェクトを作成
-$client = new Google_Client();
+// $client = new Google_Client();
+$client = new Google\Client();
+//アプリケーションのクライアントID
 $client->setAuthConfig('client_secrets.json');
 $client->setApplicationName("FileDownload");
-$client->addScope(Google_Service_Drive::Drive_METADATA_READONLY);
-$client->setRedirectUri('http:// '.$_SERVER['HTTP_HOST'].'/oauth2callback.php');
+//スペースで区切られたスコープのリスト
+// $client->addScope(Google_Service_Drive::Drive_METADATA_READONLY);
+$client->addScope(Google\Service\Drive::DRIVE_METADATA_READONLY);
+
+//リダイレクトURI
+$redirect_uri = 'http://localhost:8888/php_test/fileDownload/';
+$client->setRedirectUri($redirect_uri);
+// $client->setRedirectUri('http:// '.$_SERVER['HTTP_HOST'].'/oauth2callback.php');
+
+//アクセス トークンを更新できるかどうか
+$client->setAccessType('offline');
+$client->setApprovalPrompt('consent');
+
+//認証コードとアクセストークンを交換する
+if (isset($_GET['code'])) {
+    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+}
 
 //OAuth2.0サーバーへユーザーをリダイレクト
+//Google の OAuth 2.0 サーバーからのアクセスをリクエストする URL を生成します。
 $auth_url = $client->createAuthUrl();
+//ユーザーを $auth_url にリダイレクトします。
 header('Location:'.filter_var($auth_url, FILTER_SANITIZE_URL));
 
+//更新トークンとアクセス トークンの認証コードを交換する
 //OAuth2.0サーバーからの返信を処理
 $client->authenticate($_GET['code']);
+//メソッドを使用して取得
 $access_token=$client->getAccessToken();
 
 //Google APIを呼び出す
+//アクセス トークンの認証コードを交換
 $client->setAccessToken($access_token);
-$service = new Google_Service_Drive($client);
 
+// $service = new Google_Service_Drive($client);
+$drive = new Google\Service\Drive($client);
+$files = $drive->files->listFiles(array())->getItems();
 //$serviceに認証を終わらせたら情報入れるっぽい？
 
 //fileをgetするコード
