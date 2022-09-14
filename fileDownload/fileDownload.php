@@ -45,7 +45,7 @@ $access_token=$client->getAccessToken();
 $client->setAccessToken($access_token);
 
 // $service = new Google_Service_Drive($client);
-$drive = new Google\Service\Drive($client);
+$service = new Google\Service\Drive($client);
 $files = $drive->files->listFiles(array())->getItems();
 //$serviceに認証を終わらせたら情報入れるっぽい？
 
